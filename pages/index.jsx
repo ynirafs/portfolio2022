@@ -1,17 +1,23 @@
+//NEXT & REACT
 import Head from 'next/head'
 import Link from 'next/link'
+import Image from 'next/image'
+import { useState, useRef, Suspense } from 'react'
 
 //THREE
 import { Canvas } from '@react-three/fiber'
-import { useState, useRef, Suspense } from 'react'
 import { useGLTF, Stars, Float } from '@react-three/drei'
 
 //ICONS
 import { SiGithub } from 'react-icons/si'
 import { BiLinkExternal } from 'react-icons/bi'
-import { MdOutlineRotateLeft, MdOutlineRotateRight } from 'react-icons/md'
-import { RiEyeCloseLine, RiEye2Line, RiPlayLine, RiPauseLine } from 'react-icons/ri'
+import { IoPlayOutline, IoPauseOutline } from 'react-icons/io5'
+import { GrRotateLeft, GrRotateRight } from 'react-icons/gr'
+import { RiEyeCloseLine, RiEye2Line } from 'react-icons/ri'
 //import styles from '../styles/Home.module.css'
+
+//IMAGE
+import Name from '../public/name-logo-157.svg'
 
 //SPACESHIP 3D OBJECT
 function LegoSpaceship(props) {
@@ -19,7 +25,7 @@ function LegoSpaceship(props) {
   const { nodes, materials } = useGLTF('/lego_spaceship.glb')
 
   return (
-    <group ref={group} {...props} dispose={null} scale={0.3} rotation={[0.3, 1, 0.4]} position={[-0.2, 0.4, 0]}>
+    <group ref={group} {...props} dispose={null} scale={0.3} rotation={[0.3, 1, 0.4]} position={[-0.5, 0.4, 0]}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[0, 0, 0.8]}>
@@ -96,18 +102,20 @@ export default function Home() {
       <Head>
         <title>itsfariny</title>
         <meta name="fariny" content="portfolio website" />
-        <link rel="icon" href="/logo_favicon.ico" />
+        <link rel="icon" href="/name-favicon.ico" />
       </Head>
 
       <nav className="mx-auto flex items-center justify-between py-3 mx-8 border-b border-gray-700">
-            <h1 className="text-lg">FARINY SABTU</h1>
+        <div className="flex flex-initial items-center">
+          <Image src={Name} alt="FARINY SABTU" />
+        </div>    
             
-            <Link href="https://github.com/ynirafs">
-                <a target="_blank" rel="noreferrer" className="hover:text-[#6fffff] transition duration-200">
-                    <SiGithub size={24} />
-                </a>
-            </Link>
-        </nav>
+        <Link href="https://github.com/ynirafs">
+          <a target="_blank" rel="noreferrer" className="hover:text-[#6fffff] transition duration-200">
+            <SiGithub size={24} />
+          </a>
+        </Link>
+      </nav>
 
       <main>
         <div className="mx-auto flex flex-col lg:flex-row-reverse lg:justify-between items-center p-8">
@@ -129,32 +137,32 @@ export default function Home() {
               </Canvas>
             </div>
 
-            {/* COLOR PALETTE */}
+            {/* CONFIG BUTTONS */}
             <div className="p-2 w-full flex items-center justify-between justify-self-end border-t-2">
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => rotateX(defaultPosition + (Math.PI / 4))}>
-                <MdOutlineRotateLeft size={24} />
-              </button>
+              {/* COLOR PALETTE */}
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#ffffff]" onClick={() => selectBodyColor("#ffffff")}></button>
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#8e0902]" onClick={() => selectBodyColor("#8e0902")}></button>
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#163249]" onClick={() => selectBodyColor("#163249")}></button>
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#646267]" onClick={() => selectBodyColor("#646267")}></button>
 
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => rotateX(defaultPosition + (-Math.PI / 4))}>
-                <MdOutlineRotateRight size={24} />
-              </button>
-
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => stop(!play)}>
-                {play ? <RiPauseLine size={24} /> : <RiPlayLine size={24} />}
-              </button>
-
+              {/* ROTATE, LEVITATE, STARS */}
               <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => noStars(!stars)}>
                 {stars ? <RiEyeCloseLine size={22} /> : <RiEye2Line size={22} /> }
               </button>
-
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#646267]" onClick={() => selectBodyColor("#646267")}></button>
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#163249]" onClick={() => selectBodyColor("#163249")}></button>
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#8e0902]" onClick={() => selectBodyColor("#8e0902")}></button>
-              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#ffffff]" onClick={() => selectBodyColor("#ffffff")}></button>
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => stop(!play)}>
+                {play ? <IoPauseOutline size={24} /> : <IoPlayOutline size={24} />}
+              </button>
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => rotateX(defaultPosition + (-Math.PI / 4))}>
+                <GrRotateRight size={22} />
+              </button>
+              <button className="color rounded m-1 w-11 h-11 lg:w-12 lg:h-12 bg-[#23262e] flex justify-center items-center" onClick={() => rotateX(defaultPosition + (Math.PI / 4))}>
+                <GrRotateLeft size={22} />
+              </button>
             </div>
           </div>
 
-          <div classname="lg:w-1/2 h-full">
+          {/* ABOUT */}
+          <div className="lg:w-1/2 h-full">
             <div className="mt-14 lg:mt-0 lg:pb-0 lg:pr-8">
               <p className="text-lg lg:text-xl mb-4 text-justify">I&#39;m a software developer based in Malaysia.</p>
               <p className="text-lg lg:text-xl mb-4 text-justify">My main focus is on web apps with 3d product configuration features. Aside from that, I do fullstack web development.</p>
@@ -172,12 +180,20 @@ export default function Home() {
           <div className="project border-2 rounded-sm p-3 flex w-full space-x-3 items-start">
             <h2 className="rounded bg-[#6fffff] text-[#0a0e17] text-center p-2 mt-2 text-lg font-extrabold">01</h2>
             <div className="p-1">
-              <Link href="https://github.com/ynirafs">
+              <Link href="https://ynirafs.github.io/airtravel/">
                 <a target="_blank" rel="noreferrer">
-                  <h2 className="uppercase font-extrabold mb-2">crypto price tracker <span className="inline-block"><BiLinkExternal/></span></h2>
+                  <h2 className="uppercase font-extrabold mb-2">airtable <span className="inline-block"><BiLinkExternal/></span></h2>
                 </a>
               </Link>
-              <p className="mb-4">simple vpn for my personal use</p>
+              <p className="mb-4">airbnb style static website. With mobile responsive view</p>
+              <div className="flex items-center">
+                <Link href="https://github.com/ynirafs/airtravel">
+                  <a rel="noreferrer" target="_blank" className="uppercase px-3 border rounded-full text-sm mr-4">code</a>
+                </Link>
+                <Link href="https://ynirafs.github.io/airtravel/">
+                  <a rel="noreferrer" target="_blank" className="uppercase px-3 border rounded-full text-sm">live</a>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -185,12 +201,20 @@ export default function Home() {
           <div className="project border-2 rounded-sm p-3 flex w-full space-x-3 items-start">
           <h2 className="rounded bg-[#6fffff] text-[#0a0e17] text-center p-2 mt-2 text-lg font-extrabold">02</h2>
             <div className="p-1">
-              <Link href="#">
+              <Link href="https://ynirafs.github.io/color_palette_generator/">
                 <a target="_blank" rel="noreferrer">
                   <h2 className="uppercase font-extrabold mb-2">color tint & shade generator <span className="inline-block"><BiLinkExternal/></span></h2>
                 </a>
               </Link>
-              <p className="mb-4">translates foreign language text from an image to english</p>
+              <p className="mb-4">generate blocks of tints and shades of a single color</p>
+              <div className="flex items-center">
+                <Link href="https://github.com/ynirafs/color_palette_generator">
+                  <a rel="noreferrer" target="_blank" className="uppercase px-3 border rounded-full text-sm mr-4">code</a>
+                </Link>
+                <Link href="https://ynirafs.github.io/color_palette_generator/">
+                  <a rel="noreferrer" target="_blank" className="uppercase px-3 border rounded-full text-sm">live</a>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -198,12 +222,21 @@ export default function Home() {
           <div className="project border-2 rounded-sm p-3 flex w-full space-x-3 items-start">
           <h2 className="rounded bg-[#6fffff] text-[#0a0e17] text-center p-2 mt-2 text-lg font-extrabold">03</h2>
             <div className="p-1">
-              <Link href="#">
+              <Link href="https://ynirafs.github.io/pizza_website_react/">
                 <a target="_blank" rel="noreferrer">
-                  <h2 className="uppercase font-extrabold mb-2">markdown blog <span className="inline-block"><BiLinkExternal/></span></h2>
+                  <h2 className="uppercase font-extrabold mb-2">pizza website <span className="inline-block"><BiLinkExternal/></span></h2>
                 </a>
               </Link>
-              <p className="mb-4">translates foreign language text from an image to english</p>
+              <p className="mb-4">simple website of a pizza shop UI</p>
+              <div className="flex items-center">
+                <Link href="https://github.com/ynirafs/pizza_website_react">
+                  <a rel="noreferrer" target="_blank" className="uppercase px-3 border rounded-full text-sm mr-4">code</a>
+                </Link>
+                <Link href="https://ynirafs.github.io/pizza_website_react/">
+                  <a rel="noreferrer" target="_blank" className="uppercase px-3 border rounded-full text-sm">live</a>
+                </Link>
+              </div>
+              
             </div>
           </div>
         </div>
